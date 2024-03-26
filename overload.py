@@ -12,5 +12,5 @@ memory_usage = (used_memory / total_memory) * 100
 print(f"Нагрузка на процессор: {cpu_usage}")
 print(f"Общий объем оперативной памяти: {total_memory} из них использовано {used_memory} это {int(memory_usage)}%")
 print(f"Сервер был включен в: {psutil.boot_time()}")
-print("Это уже обнова из гитхаба №2")
+print("Это уже обнова из гитхаба №4")
 #print(f"")
