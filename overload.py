@@ -50,5 +50,6 @@ class system_information:
 
 
 if __name__ == "__main__":
-
+    SystemInfo = system_information()
+    SystemInfo.write_system_information()
     pass
