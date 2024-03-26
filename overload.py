@@ -47,10 +47,10 @@ class system_information:
         print(f"CPU:                {self.cpu_usage}")
         print(f"Total RAM memory:   {self.total_memory}")
         print(f"Used RAM memory:    {self.used_memory}")
-        print(f"% Usage memory:     {self.memory_usage}")
+        print(f"% Usage memory:     {int(self.memory_usage)}")
         print(f"Network load:       {self.network_load}")
-        print(f"Datetime:           {self.datetime_operation}")
-        print(f"Boot time:          {self.boot_uptime}")
+        print(f"Datetime UNIX:           {int(self.datetime_operation)}")
+        print(f"Boot time UNIX:          {int(self.boot_uptime)}")
         #self.size_db = 
 
     def write_system_information(self):
