@@ -43,6 +43,14 @@ class system_information:
         self.datetime_operation = datetime.datetime.now().timestamp()
         self.boot_uptime = psutil.boot_time()
         print(f"{return_time_now()}| Информация о системе получена")
+        print(f"{return_time_now()}| СВОДКА ПОЛУЧЕННОЙ ИНФОРМАЦИИ")
+        print(f"CPU:                {self.cpu_usage}")
+        print(f"Total RAM memory:   {self.total_memory}")
+        print(f"Used RAM memory:    {self.used_memory}")
+        print(f"% Usage memory:     {self.memory_usage}")
+        print(f"Network load:       {self.network_load}")
+        print(f"Datetime:           {self.datetime_operation}")
+        print(f"Boot time:          {self.boot_uptime}")
         #self.size_db = 
 
     def write_system_information(self):
