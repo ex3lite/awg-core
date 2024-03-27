@@ -7,8 +7,8 @@ def iftop(interface):
         io = psutil.net_io_counters(pernic=True)[interface]
 
         print("Network Traffic for", interface)
-        print(f"  Sent: {io.bytes_sent} bytes")
-        print(f"  Received: {io.bytes_recv} bytes")
+        print(f"  Sent: {psutil.bytes2human(io.bytes_sent)}")
+        print(f"  Received: {psutil.bytes2human(io.bytes_recv)}")
 
         # Ждем некоторое время перед обновлением информации
         time.sleep(1)
