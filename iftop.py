@@ -6,5 +6,5 @@ def packet_callback(pkt):
     except AttributeError:
         pass  # Пропускаем пакеты без IP
 
-capture = pyshark.LiveCapture(interface='wg0', bpf_filter='not port 22')
+capture = pyshark.LiveCapture(interface='wg0')
 capture.apply_on_packets(packet_callback)
