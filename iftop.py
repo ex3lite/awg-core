@@ -1,20 +1,15 @@
 import psutil
 import time
 
-def iftop(interface):
+def iftop():
     while True:
         # Получаем информацию о сетевом трафике для указанного интерфейса
-        io = psutil.net_io_counters(pernic=True)[interface]
-
-        print("Network Traffic for", interface)
-        print(f"  Sent: {psutil.bytes2human(io.bytes_sent)}")
-        print(f"  Received: {psutil.bytes2human(io.bytes_recv)}")
+        io = psutil.net_io_counters()["wg0"]
+        print(f"  Sent: {io.packets_sent}")
+        print(f"  Received: {io.packets_recv}")
 
         # Ждем некоторое время перед обновлением информации
         time.sleep(1)
 
-# Укажите интерфейс, который вы хотите мониторить
-selected_interface = 'wg0'
-
 # Вызываем функцию iftop с указанным интерфейсом для отслеживания трафика
-iftop(selected_interface)
+iftop()
