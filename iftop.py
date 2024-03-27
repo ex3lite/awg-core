@@ -1,19 +1,10 @@
 import pyshark
 
-# Открыть файл pcap
-cap = pyshark.FileCapture('example.pcap')
+def packet_callback(pkt):
+    try:
+        print(pkt.ip.src, "->", pkt.ip.dst, ":", pkt.length)
+    except AttributeError:
+        pass  # Пропускаем пакеты без IP
 
-# Выбрать все пакеты HTTP
-http_packets = cap.filter('http')
-
-# Печать информации о каждом пакете HTTP
-for packet in http_packets:
-    print('---')
-    print('Источник:', packet.ip.src)
-    print('Назначение:', packet.ip.dst)
-    print('Метод HTTP:', packet.http.request_method)
-    print('URI HTTP:', packet.http.request_uri)
-    print('Код ответа HTTP:', packet.http.response_code)
-
-# Закрыть файл pcap
-cap.close()
+capture = pyshark.LiveCapture(interface='wg0', bpf_filter='not port 22')
+capture.apply_on_packets(packet_callback)
