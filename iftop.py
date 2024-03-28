@@ -2,9 +2,15 @@ import time
 import psutil
 import sqlite3
 import datetime
+import subprocess
 import scapy.all as scapy
 
 SQLBase = "database.db"
+
+def give_endpoint(local_ip:str)->str:
+    output = subprocess.check_output(f"wg show wg0 dump | grep '{local_ip}' | awk '{{print $3}}'", shell=True, universal_newlines=True)
+    print(f"Endpoint: {output}")
+    return output
 
 def iftop():
   # Считывание 10 пакетов с интерфейса wg0  
@@ -14,6 +20,9 @@ def iftop():
         Sender          = packet[scapy.IP].src
         Sender_Port     = 0
 
+        EndPoint        = give_endpoint(Sender)
+
+        print(f"EndPoint: {EndPoint}")
         Recipient       = packet[scapy.IP].dst
         Recipient_Port  = 0
 
