@@ -16,6 +16,7 @@ def iftop():
             # Печать информации о времени
             print(f"Time: {packet.time}")
 
+
 # Бесконечный цикл
 while True:
     iftop()
