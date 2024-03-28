@@ -5,6 +5,8 @@ def print_network_traffic():
     # Получить список всех активных соединений
     connections = psutil.net_connections()
 
+    print(connection)
+
     for connection in connections:
         local_address = connection.laddr
         remote_address = connection.raddr
