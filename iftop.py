@@ -45,7 +45,6 @@ def iftop():
         print(f"EndPoint    : {EndPoint}")
         print(f"{packet[scapy.IP].src} -> {packet[scapy.IP].dst}")
         print(f"Protocol    : {Protocol}")
-        print(f"Type 1 IP   : {Type_IP}")
 
     
         if scapy.TCP in packet:
