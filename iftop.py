@@ -21,6 +21,7 @@ def is_private_ip(ip):
     except ValueError:
         return False
     
+    
 def iftop():
   # Считывание 10 пакетов с интерфейса wg0  
     for packet in scapy.sniff(iface="wg0", count=10):
