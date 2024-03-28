@@ -3,6 +3,7 @@ import psutil
 import sqlite3
 import datetime
 import subprocess
+import ipaddress
 import scapy.all as scapy
 
 SQLBase = "database.db"
@@ -13,7 +14,13 @@ def give_endpoint(local_ip:str)->str:
         return output
     else:
         return "none"
-
+def is_private_ip(ip):
+    try:
+        ip_obj = ipaddress.ip_address(ip)
+        return ip_obj.is_private
+    except ValueError:
+        return False
+    
 def iftop():
   # Считывание 10 пакетов с интерфейса wg0  
     for packet in scapy.sniff(iface="wg0", count=10):
@@ -31,11 +38,14 @@ def iftop():
         PacketSize      = len(packet)
         DateTime        = packet.time
         Protocol        = 'TCP' if scapy.TCP in packet else 'UDP' if scapy.UDP in packet else 'OTHER'
+        Type_IP         = 'LOCAL' if is_private_ip(Sender) else 'PUBLIC'
 
         print(f"\n{return_time_now()}| Вывод информации о пакете:")
         print(f"EndPoint    : {EndPoint}")
         print(f"{packet[scapy.IP].src} -> {packet[scapy.IP].dst}")
         print(f"Protocol    : {Protocol}")
+        print(f"Type 1 IP   : {Type_IP}")
+
     
         if scapy.TCP in packet:
             # Печать информации о портах
