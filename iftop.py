@@ -26,23 +26,20 @@ def iftop():
     for packet in scapy.sniff(iface="wg0", count=10):
         # Печать информации о IP-адресах
         
-        Sender          = packet[scapy.IP].src
+        Sender          = give_endpoint(packet[scapy.IP].src) if is_private_ip(packet[scapy.IP].src) else packet[scapy.IP].src
         Sender_Port     = 0
 
         
 
         
-        Recipient       = packet[scapy.IP].dst
+        Recipient       = give_endpoint(packet[scapy.IP].dst) if is_private_ip(packet[scapy.IP].dst) else packet[scapy.IP].dst
         Recipient_Port  = 0
 
         PacketSize      = len(packet)
         DateTime        = packet.time
         Protocol        = 'TCP' if scapy.TCP in packet else 'UDP' if scapy.UDP in packet else 'OTHER'
-        NeedToCheck     = Sender if is_private_ip(Sender) else Recipient
-        EndPoint        = give_endpoint(NeedToCheck)
 
         print(f"\n{return_time_now()}| Вывод информации о пакете:")
-        print(f"EndPoint    : {EndPoint}")
         print(f"{packet[scapy.IP].src} -> {packet[scapy.IP].dst}")
         print(f"Protocol    : {Protocol}")
 
