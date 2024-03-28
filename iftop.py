@@ -35,18 +35,18 @@ def iftop():
         Protocol        = 'TCP' if scapy.TCP in packet else 'UDP' if scapy.UDP in packet else 'OTHER'
         UUID            = "none"
 
-        print(f"\n{return_time_now()}| Вывод информации о пакете:")
+        print(f"\n {return_time_now()}| Вывод информации о пакете:")
         print(f"{Sender}    ->{Recipient}")
-        print(f"Protocol    : {Protocol}")
+        print(f" Protocol    : {Protocol}")
 
     
         if scapy.TCP in packet:
             # Печать информации о портах
             print(f"{packet[scapy.TCP].sport} -> {packet[scapy.TCP].dport}")
             # Печать информации о размере пакета\
-            print(f"Packet size : {len(packet)} bytes")
+            print(f" Packet size : {len(packet)} bytes")
             # Печать информации о времени
-            print(f"Time        : {packet.time}")
+            print(f" Time        : {packet.time}")
 
         # Запись информации о пакете в базу данных
         SQL = SQLiteOperation(SQLBase)
