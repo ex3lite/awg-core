@@ -24,7 +24,7 @@ def iftop():
 
         EndPoint        = give_endpoint(Sender)
 
-        print(f"EndPoint: {EndPoint}")
+        
         Recipient       = packet[scapy.IP].dst
         Recipient_Port  = 0
 
@@ -33,6 +33,7 @@ def iftop():
         Protocol        = 'TCP' if scapy.TCP in packet else 'UDP' if scapy.UDP in packet else 'OTHER'
 
         print(f"\n{return_time_now()}| Вывод информации о пакете:")
+        print(f"EndPoint    : {EndPoint}")
         print(f"{packet[scapy.IP].src} -> {packet[scapy.IP].dst}")
         print(f"Protocol    : {Protocol}")
     
