@@ -9,8 +9,10 @@ SQLBase = "database.db"
 
 def give_endpoint(local_ip:str)->str:
     output = subprocess.check_output(f"wg show wg0 dump | grep '{local_ip}' | awk '{{print $3}}'", shell=True, universal_newlines=True)
-    print(f"Endpoint: {output}")
-    return output
+    if output != "(none)" or output != "":
+        return output
+    else:
+        return "none"
 
 def iftop():
   # Считывание 10 пакетов с интерфейса wg0  
@@ -28,10 +30,11 @@ def iftop():
 
         PacketSize      = len(packet)
         DateTime        = packet.time
-        Protocol        = "UDP"
+        Protocol        = 'TCP' if scapy.TCP in packet else 'UDP' if scapy.UDP in packet else 'OTHER'
 
         print(f"\n{return_time_now()}| Вывод информации о пакете:")
         print(f"{packet[scapy.IP].src} -> {packet[scapy.IP].dst}")
+        print(f"Protocol    : {Protocol}")
     
         if scapy.TCP in packet:
             # Печать информации о портах
@@ -43,7 +46,7 @@ def iftop():
 
         # Запись информации о пакете в базу данных
         SQL = SQLiteOperation(SQLBase)
-        SQL.write_packet_information(Sender, Sender_Port, Recipient, Recipient_Port, PacketSize, DateTime, Protocol)
+        #SQL.write_packet_information(Sender, Sender_Port, Recipient, Recipient_Port, PacketSize, DateTime, Protocol)
 
 def return_time_now()->str:
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
