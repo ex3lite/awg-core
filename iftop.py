@@ -6,6 +6,7 @@ def iftop():
   # Считывание 10 пакетов с интерфейса wg0  
     for packet in scapy.sniff(iface="wg0", count=10):
         # Печать информации о IP-адресах
+        print("/n Вывод информации о пакете:")
         print(f"{packet[scapy.IP].src} -> {packet[scapy.IP].dst}")
         if scapy.TCP in packet:
             # Печать информации о портах
