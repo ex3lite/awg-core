@@ -1,16 +1,11 @@
-import time
 import subprocess
 
+# Запуск iftop в subprocess
+process = subprocess.Popen(["iftop", "-i", "wg0"], stdout=subprocess.PIPE)
 
-time.sleep(1)  # Pause for 1 second before repeating the loop
-# Infinite loop to continuously monitor network traffic
-while True:
-    # Execute the iftop command and get the output
-    output = subprocess.check_output(["iftop"], universal_newlines=True)
+# Чтение вывода iftop построчно
+for line in process.stdout:
+    print(line.decode("utf-8").strip())
 
-    # Process the output
-    lines = output.split("\n")
-    for line in lines:
-        print(line)  # Replace this with your own processing logic
-
-    time.sleep(1)  # Pause for 1 second before repeating the loop
+# Закрытие subprocess
+process.terminate()
