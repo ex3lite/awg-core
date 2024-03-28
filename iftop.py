@@ -40,7 +40,7 @@ def iftop():
         Protocol        = 'TCP' if scapy.TCP in packet else 'UDP' if scapy.UDP in packet else 'OTHER'
 
         print(f"\n{return_time_now()}| Вывод информации о пакете:")
-        print(f"{packet[scapy.IP].src} -> {packet[scapy.IP].dst}")
+        print(f"{Sender} -> {Recipient}")
         print(f"Protocol    : {Protocol}")
 
     
