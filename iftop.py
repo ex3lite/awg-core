@@ -27,20 +27,14 @@ def iftop():
         # Печать информации о IP-адресах
         
         Sender          = give_endpoint(packet[scapy.IP].src) if is_private_ip(packet[scapy.IP].src) else packet[scapy.IP].src
-        Sender_Port     = 0
-
-        
-
-        
         Recipient       = give_endpoint(packet[scapy.IP].dst) if is_private_ip(packet[scapy.IP].dst) else packet[scapy.IP].dst
-        Recipient_Port  = 0
 
         PacketSize      = len(packet)
-        DateTime        = packet.time
+        DateTime        = int(packet.time)
         Protocol        = 'TCP' if scapy.TCP in packet else 'UDP' if scapy.UDP in packet else 'OTHER'
-
+        UUID            = "none"
         print(f"\n{return_time_now()}| Вывод информации о пакете:")
-        print(f"{Sender} -> {Recipient}")
+        print(f"{Sender}    ->{Recipient}")
         print(f"Protocol    : {Protocol}")
 
     
@@ -54,7 +48,7 @@ def iftop():
 
         # Запись информации о пакете в базу данных
         SQL = SQLiteOperation(SQLBase)
-        #SQL.write_packet_information(Sender, Sender_Port, Recipient, Recipient_Port, PacketSize, DateTime, Protocol)
+        SQL.write_packet_information(UUID, Sender, Recipient, Protocol, PacketSize, DateTime)
 
 def return_time_now()->str:
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -65,9 +59,9 @@ class SQLiteOperation:
         self.cursor = self.connection.cursor()
         print(f"{return_time_now()}| База данных подключена")
 
-    def write_packet_information(self, Sender:str, Sender_Port:int, Recipient:str, Recipient_Port:int, Size:int, DateTime:int, Protocol:str)->bool:
+    def write_packet_information(self, UUID:str, Sender:str, Recipient:str, Protocol:str, SizePacket:int, DateTime:int)->bool:
         with self.connection:
-            self.cursor.execute("INSERT INTO traffic (Sender, Sender_Port, Recipient, Recipient_Port, Size, DateTime, Protocol) VALUES (?, ?, ?, ?, ?, ?, ?)", (Sender, Sender_Port, Recipient, Recipient_Port, Size, DateTime, Protocol))
+            self.cursor.execute("INSERT INTO traffic (UUID, Sender, Recipient, Protocol, SizePacket, DateTime) VALUES (?, ?, ?, ?, ?, ?)", (UUID, Sender, Recipient, Protocol, SizePacket, DateTime))
 
         print(f"{return_time_now()}| Информация о пакете записана в базу данных")
         return True
