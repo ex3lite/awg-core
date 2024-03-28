@@ -33,6 +33,7 @@ def iftop():
         DateTime        = int(packet.time)
         Protocol        = 'TCP' if scapy.TCP in packet else 'UDP' if scapy.UDP in packet else 'OTHER'
         UUID            = "none"
+
         print(f"\n{return_time_now()}| Вывод информации о пакете:")
         print(f"{Sender}    ->{Recipient}")
         print(f"Protocol    : {Protocol}")
@@ -65,6 +66,7 @@ class SQLiteOperation:
 
         print(f"{return_time_now()}| Информация о пакете записана в базу данных")
         return True
+
 
     def __del__(self):
         self.connection.close()
