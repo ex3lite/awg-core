@@ -29,7 +29,7 @@ def iftop():
         Sender          = packet[scapy.IP].src
         Sender_Port     = 0
 
-        EndPoint        = give_endpoint(Sender)
+        
 
         
         Recipient       = packet[scapy.IP].dst
@@ -38,7 +38,8 @@ def iftop():
         PacketSize      = len(packet)
         DateTime        = packet.time
         Protocol        = 'TCP' if scapy.TCP in packet else 'UDP' if scapy.UDP in packet else 'OTHER'
-        Type_IP         = 'LOCAL' if is_private_ip(Sender) else 'PUBLIC'
+        NeedToCheck     = Sender if is_private_ip(Sender) else Recipient
+        EndPoint        = give_endpoint(NeedToCheck)
 
         print(f"\n{return_time_now()}| Вывод информации о пакете:")
         print(f"EndPoint    : {EndPoint}")
