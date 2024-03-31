@@ -11,7 +11,7 @@ SQLBase = "database.db"
 def give_endpoint(local_ip:str)->str:
     output = subprocess.check_output(f"wg show wg0 dump | grep '{local_ip}' | awk '{{print $3}}'", shell=True, universal_newlines=True)
     if output != "(none)" or output != "":
-        return output
+        return output.replace("\n", "")
     else:
         return "none"
 def is_private_ip(ip):
